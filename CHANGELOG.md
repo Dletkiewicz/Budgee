@@ -9,7 +9,7 @@
 ### Changed
 ### Removed
 
-## [0.0.2] branch-name
+## [0.0.2] 13-create-nodejs-next-docker-image
 ### Added
 - Added dockerfile for client package
 - Added docker image for client in docker-compose
@@ -17,3 +17,19 @@
 ### Changed
 - Change networks for all containers
 ### Removed
+
+## [0.0.3] 1-create-user-entity
+### Added
+- Added user entity
+- Added user repository
+- Added pom dependencies
+### Changed
+### Removed
+
+## [0.0.4] 2-create-budget-entity
+### Added
+- Added budget entity
+- Added budget repository
+### Changed
+### Removed
+
