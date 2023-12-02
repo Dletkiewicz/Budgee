@@ -1,6 +1,7 @@
 package pl.budgee.adapter.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.hibernate.annotations.NaturalId;
 import pl.budgee.domain.model.User;
 import pl.budgee.domain.model.User.UserId;
@@ -16,8 +17,8 @@ public class UserEntity {
   @Column(name = "id")
   private UUID databaseId;
 
+  @Getter
   @NaturalId
-  @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name = "business_id")
   private UUID businessId;
 

@@ -2,10 +2,9 @@ spring:
   application:
     name: budgee
 
-
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     show-sql: "${SHOW_SQL:true}"
     properties:
       hibernate:

@@ -1,18 +1,14 @@
 package pl.budgee.adapter.jpa.entity;
 
-import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.GeneratedValue;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import pl.budgee.domain.model.Audit;
-import pl.budgee.domain.model.User;
 import pl.budgee.domain.model.User.UserId;
 
 import java.time.Instant;
