@@ -9,7 +9,11 @@
 ### Changed
 ### Removed
 
-## [0.0.x] branch-name
+## [0.0.2] branch-name
 ### Added
+- Added dockerfile for client package
+- Added docker image for client in docker-compose
+- Added networks in docker-compose
 ### Changed
+- Change networks for all containers
 ### Removed
