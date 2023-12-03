@@ -33,3 +33,10 @@
 ### Changed
 ### Removed
 
+## [0.0.5] 3-create-income-entity
+### Added
+- Added income entity
+- Added enum class for income/expense type
+### Changed
+- Changed audit entity
+### Removed
