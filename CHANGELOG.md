@@ -40,3 +40,11 @@
 ### Changed
 - Changed audit entity
 ### Removed
+
+## [0.0.6] 4-create-expense-entity
+### Added
+- Added expense entity
+- Added create expense/income usecases
+### Changed
+- Changed expense domain class |  String category -> enum ExpenseType 
+### Removed
