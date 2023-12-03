@@ -19,23 +19,15 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AuditMixin {
 
-  @CreatedBy
-  @Column(name = "created_by")
-  private UUID createdBy;
-
   @CreatedDate
   @Column(name = "created_at")
   private Instant createdAt;
-
-  @LastModifiedBy
-  @Column(name = "last_modified_by")
-  private UUID lastModifiedBy;
 
   @LastModifiedDate
   @Column(name = "last_modified_at")
   private Instant lastModifiedAt;
 
   public Audit toModel() {
-    return new Audit(new UserId(createdBy), createdAt, new UserId(lastModifiedBy), lastModifiedAt);
+    return new Audit(createdAt, lastModifiedAt);
   }
 }
