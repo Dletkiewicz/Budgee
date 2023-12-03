@@ -6,8 +6,6 @@
 - Added docker-compose file
 - Added mysql:8 docker image
 - Added api image to docker-compose
-### Changed
-### Removed
 
 ## [0.0.2] 13-create-nodejs-next-docker-image
 ### Added
@@ -16,22 +14,17 @@
 - Added networks in docker-compose
 ### Changed
 - Change networks for all containers
-### Removed
 
 ## [0.0.3] 1-create-user-entity
 ### Added
 - Added user entity
 - Added user repository
 - Added pom dependencies
-### Changed
-### Removed
 
 ## [0.0.4] 2-create-budget-entity
 ### Added
 - Added budget entity
 - Added budget repository
-### Changed
-### Removed
 
 ## [0.0.5] 3-create-income-entity
 ### Added
@@ -39,7 +32,6 @@
 - Added enum class for income/expense type
 ### Changed
 - Changed audit entity
-### Removed
 
 ## [0.0.6] 4-create-expense-entity
 ### Added
@@ -47,4 +39,14 @@
 - Added create expense/income usecases
 ### Changed
 - Changed expense domain class |  String category -> enum ExpenseType 
-### Removed
+
+## [0.0.6] 4-create-expense-entity
+### Added
+- Added expense entity
+- Added create expense/income usecases
+### Changed
+- Changed expense domain class |  String category -> enum ExpenseType 
+
+## [0.0.7] 28-create-bash-script-to-enable-front-or-back-or-both
+### Added
+- Added script to manage docker containers
