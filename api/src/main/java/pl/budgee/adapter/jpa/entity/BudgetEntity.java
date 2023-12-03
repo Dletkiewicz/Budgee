@@ -5,7 +5,6 @@ import lombok.Getter;
 import org.hibernate.annotations.NaturalId;
 import pl.budgee.domain.model.Budget;
 import pl.budgee.domain.model.Budget.BudgetId;
-import pl.budgee.domain.model.User;
 import pl.budgee.domain.model.User.UserId;
 
 import java.math.BigDecimal;
