@@ -1,4 +1,4 @@
-package pl.budgee.adapter.config;
+package pl.budgee.adapter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

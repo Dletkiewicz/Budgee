@@ -1,4 +1,4 @@
-package pl.budgee.adapter.config;
+package pl.budgee.adapter;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
