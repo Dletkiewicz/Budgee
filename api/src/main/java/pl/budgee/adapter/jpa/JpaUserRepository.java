@@ -18,7 +18,7 @@ public class JpaUserRepository implements UserRepository {
   interface SpringDataUserRepository extends JpaRepository<UserEntity, UUID> {
     void deleteByBusinessId(UUID id);
 
-    Optional<UserEntity> findOneByUsername(String username);
+    boolean existsByUsername(String username);
     Optional<UserEntity> findOneByBusinessId(UUID id);
   }
 
@@ -40,4 +40,13 @@ public class JpaUserRepository implements UserRepository {
     users.deleteByBusinessId(id.value());
   }
 
+  @Override
+  public boolean existsByUsername(String username) {
+    return users.existsByUsername(username);
+  }
+
+  @Override
+  public Optional<User> findOneById(UserId id) {
+    return users.findOneByBusinessId(id.value()).map(UserEntity::toModel);
+  }
 }

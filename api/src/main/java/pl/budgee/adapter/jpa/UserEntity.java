@@ -3,6 +3,7 @@ package pl.budgee.adapter.jpa;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.NaturalId;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pl.budgee.domain.model.User;
 import pl.budgee.domain.model.User.UserId;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 
   @Id

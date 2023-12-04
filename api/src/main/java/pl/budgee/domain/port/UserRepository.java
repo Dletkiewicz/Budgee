@@ -11,4 +11,8 @@ public interface UserRepository {
 
   void delete(UserId id);
 
+  boolean existsByUsername(String username);
+
+  Optional<User> findOneById(UserId id);
+
 }

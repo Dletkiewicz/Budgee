@@ -2,7 +2,8 @@ package pl.budgee.domain.usecase;
 
 import lombok.RequiredArgsConstructor;
 import pl.budgee.domain.model.User;
-import pl.budgee.domain.model.UsernameAlreadyExists;
+import pl.budgee.domain.model.User.UserId;
+import pl.budgee.domain.model.UsernameTakenException;
 import pl.budgee.domain.port.UserRepository;
 
 @RequiredArgsConstructor
@@ -13,9 +14,19 @@ public class CreateUser {
 
   private final UserRepository users;
 
-  public User createUser(CreateUserRequest request) {
+  public User create(CreateUserRequest request) {
+    if (users.existsByUsername(request.username())) {
+      throw new UsernameTakenException(request.username());
+    }
 
-
-    return null;
+    return users.save(new User(
+        UserId.create(),
+        request.firstName(),
+        request.lastName(),
+        request.username(),
+        request.password(),
+        null));
   }
+
+  //todo create budget
 }
