@@ -3,7 +3,7 @@ spring:
     name: budgee
 
   datasource:
-    url: jdbc:mysql://localhost:3306/budgee?useSSL=false
+    url: jdbc:postgresql://localhost:5432/budgee?useSSL=false
     username: user
     password: passwd
 
