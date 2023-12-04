@@ -1,4 +1,4 @@
-package pl.budgee.adapter.jpa.entity;
+package pl.budgee.adapter.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

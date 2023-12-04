@@ -1,9 +1,8 @@
-package pl.budgee.adapter.jpa.repository;
+package pl.budgee.adapter.jpa;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.budgee.adapter.jpa.entity.BudgetEntity;
 import pl.budgee.domain.port.BudgetRepository;
 
 import java.util.UUID;
