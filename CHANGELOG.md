@@ -40,13 +40,19 @@
 ### Changed
 - Changed expense domain class |  String category -> enum ExpenseType 
 
-## [0.0.6] 4-create-expense-entity
+## [0.0.7] 4-create-expense-entity
 ### Added
 - Added expense entity
 - Added create expense/income usecases
 ### Changed
 - Changed expense domain class |  String category -> enum ExpenseType 
 
-## [0.0.7] 28-create-bash-script-to-enable-front-or-back-or-both
+## [0.0.8] 28-create-bash-script-to-enable-front-or-back-or-both
 ### Added
 - Added script to manage docker containers
+
+## [0.0.9] 3-create-liquibase-scripts-for-database
+### Added
+- Added liquibase scripts
+### Changed
+- Changed DBMS to PostgreSQL
