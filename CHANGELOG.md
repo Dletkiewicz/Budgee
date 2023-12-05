@@ -56,3 +56,10 @@
 - Added liquibase scripts
 ### Changed
 - Changed DBMS to PostgreSQL
+
+## [0.0.10] 6-create-user-crud
+### Added
+- Added user controller methods
+- Added user exceptions
+### Removed
+- Removed GlobalExceptionHandler
