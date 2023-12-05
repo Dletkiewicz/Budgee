@@ -36,12 +36,10 @@ public class JpaBudgetRepository implements BudgetRepository, EntityResolver {
 
   @Override
   @Transactional
-  public Budget save(Budget budget) {
+  public void save(Budget budget) {
     var entity = budgets.findOneByUserBusinessId(budget.userId().value())
         .map(e -> e.update(budget))
         .orElseGet(() -> budgets.save(BudgetEntity.create(this, budget)));
-
-    return entity.toModel();
   }
 
   @Override

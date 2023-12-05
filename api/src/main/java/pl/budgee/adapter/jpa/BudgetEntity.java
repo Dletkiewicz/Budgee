@@ -6,7 +6,6 @@ import org.hibernate.annotations.NaturalId;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pl.budgee.domain.model.Budget;
 import pl.budgee.domain.model.Budget.BudgetId;
-import pl.budgee.domain.model.User;
 import pl.budgee.domain.model.User.UserId;
 
 import java.math.BigDecimal;

@@ -13,6 +13,8 @@ public interface UserRepository {
 
   boolean existsByUsername(String username);
 
+  Optional<User> findOneByUsername(String username);
+
   Optional<User> findOneById(UserId id);
 
 }

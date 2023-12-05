@@ -4,5 +4,5 @@ import pl.budgee.domain.model.Budget;
 
 public interface BudgetRepository {
 
-  Budget save(Budget budget);
+  void save(Budget budget);
 }
