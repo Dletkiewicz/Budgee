@@ -17,7 +17,7 @@ public class UsecaseConfig {
 
   @Bean
   CreateUser createUser() {
-    return new CreateUser(users);
+    return new CreateUser(users, budgets);
   }
 
   @Bean
