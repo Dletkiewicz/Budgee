@@ -20,6 +20,8 @@ public class JpaUserRepository implements UserRepository {
 
     boolean existsByUsername(String username);
     Optional<UserEntity> findOneByBusinessId(UUID id);
+
+    Optional<UserEntity> findOneByUsername(String username);
   }
 
   private final SpringDataUserRepository users;
@@ -48,5 +50,10 @@ public class JpaUserRepository implements UserRepository {
   @Override
   public Optional<User> findOneById(UserId id) {
     return users.findOneByBusinessId(id.value()).map(UserEntity::toModel);
+  }
+
+  @Override
+  public Optional<User> findOneByUsername(String username) {
+    return users.findOneByUsername(username).map(UserEntity::toModel);
   }
 }
