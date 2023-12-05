@@ -8,6 +8,7 @@ import lombok.Value;
 import pl.budgee.domain.model.Audit;
 import pl.budgee.domain.model.User;
 import pl.budgee.domain.usecase.CreateUser.CreateUserRequest;
+import pl.budgee.domain.usecase.UpdateUser.UpdateUserRequest;
 
 import java.util.UUID;
 
@@ -29,21 +30,34 @@ public class WebModels {
   @Data
   @NoArgsConstructor
   static class CreateUserDto {
-    @NotBlank
-    @Size(min = 2, max = 40, message = "First name must be between 2 and 40 characters")
+    @NotBlank @Size(min = 2, max = 40, message = "First name must be between 2 and 40 characters")
     String firstName;
-    @NotBlank
-    @Size(min = 2, max = 60, message = "Last name must be between 2 and 60 characters")
+    @NotBlank @Size(min = 2, max = 60, message = "Last name must be between 2 and 60 characters")
     String lastName;
-    @NotBlank
-    @Size(min = 2, max = 15, message = "Username must be between 2 and 15 characters")
+    @NotBlank @Size(min = 2, max = 15, message = "Username must be between 2 and 15 characters")
     String username;
-    @NotBlank
-    @Size(min = 5, max = 15, message = "Password must be between 5 and 15 characters")
+    @NotBlank @Size(min = 5, max = 15, message = "Password must be between 5 and 15 characters")
     String password;
 
     CreateUserRequest toRequest() {
       return new CreateUserRequest(firstName, lastName, username, password);
+    }
+  }
+
+  @Data
+  @NoArgsConstructor
+  static class UpdateUserDto {
+    @NotBlank @Size(min = 2, max = 40, message = "First name must be between 2 and 40 characters")
+    String firstName;
+    @NotBlank @Size(min = 2, max = 60, message = "Last name must be between 2 and 60 characters")
+    String lastName;
+    @NotBlank @Size(min = 2, max = 15, message = "Username must be between 2 and 15 characters")
+    String username;
+    @NotBlank @Size(min = 5, max = 15, message = "Password must be between 5 and 15 characters")
+    String password;
+
+    UpdateUserRequest toRequest() {
+      return new UpdateUserRequest(firstName, lastName, username, password);
     }
   }
 }

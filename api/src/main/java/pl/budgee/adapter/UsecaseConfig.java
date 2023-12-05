@@ -7,6 +7,7 @@ import pl.budgee.domain.port.BudgetRepository;
 import pl.budgee.domain.port.UserRepository;
 import pl.budgee.domain.usecase.CreateUser;
 import pl.budgee.domain.usecase.DeleteUser;
+import pl.budgee.domain.usecase.UpdateUser;
 
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
@@ -23,5 +24,10 @@ public class UsecaseConfig {
   @Bean
   DeleteUser deleteUser() {
     return new DeleteUser(users);
+  }
+
+  @Bean
+  UpdateUser updateUser() {
+    return new UpdateUser(users);
   }
 }
