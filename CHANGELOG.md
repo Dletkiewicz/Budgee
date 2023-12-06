@@ -67,3 +67,4 @@
 ## [0.0.11] 7-create-incomes-crud
 ### Added
 - Added income creating usecase/controller methods/repository methods
+- Added deleting income
