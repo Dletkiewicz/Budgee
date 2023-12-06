@@ -7,8 +7,10 @@ import org.springframework.stereotype.Repository;
 import pl.budgee.adapter.jpa.IncomeEntity.EntityResolver;
 import pl.budgee.domain.model.Budget.BudgetId;
 import pl.budgee.domain.model.Income;
+import pl.budgee.domain.model.Income.IncomeId;
 import pl.budgee.domain.port.IncomeRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -17,6 +19,9 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
 
   interface SpringDataIncomeRepository extends JpaRepository<IncomeEntity, UUID> {
 
+    void deleteByBudgetBusinessIdAndBusinessId(UUID budgetId, UUID id);
+
+    Optional<IncomeEntity> findOneByBudgetBusinessIdAndBusinessId(UUID budgetId, UUID incomeId);
   }
 
   interface SpringDataBudgetRepository extends JpaRepository<BudgetEntity, UUID> {
@@ -36,7 +41,18 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
   }
 
   @Override
+  @Transactional
+  public void delete(BudgetId budgetId, IncomeId id) {
+    incomes.deleteByBudgetBusinessIdAndBusinessId(budgetId.value(), id.value());
+  }
+
+  @Override
   public BudgetEntity resolve(BudgetId id) {
     return budgets.getByBusinessId(id.value());
+  }
+
+  @Override
+  public Optional<Income> findOneById(BudgetId budgetId, IncomeId id) {
+    return incomes.findOneByBudgetBusinessIdAndBusinessId(budgetId.value(), id.value()).map(IncomeEntity::toModel);
   }
 }
