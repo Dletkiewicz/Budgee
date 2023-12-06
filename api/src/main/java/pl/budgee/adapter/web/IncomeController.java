@@ -37,11 +37,11 @@ public class IncomeController {
         .body(IncomeDto.of(income));
   }
 
-  @DeleteMapping("/incomes/{incomeId}")
+  @DeleteMapping("/{budgetId}/incomes/{incomeId}")
   @Operation(summary = "Delete income")
-  ResponseEntity<Void> deleteIncome(@PathVariable UUID incomeId) {
+  ResponseEntity<Void> deleteIncome(@PathVariable UUID budgetId, @PathVariable UUID incomeId) {
     try {
-      var request = new DeleteIncomeRequest(new IncomeId(incomeId));
+      var request = new DeleteIncomeRequest(new BudgetId(budgetId), new IncomeId(incomeId));
       deleteIncome.delete(request);
       return ResponseEntity.noContent().build();
     } catch (IncomeNotFoundException e) {

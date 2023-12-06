@@ -11,7 +11,7 @@ public interface IncomeRepository {
 
   Income save(Income income);
 
-  void delete(IncomeId id);
+  void delete(BudgetId budgetId, IncomeId id);
 
-  Optional<Income> findOneById(IncomeId id);
+  Optional<Income> findOneById(BudgetId budgetId, IncomeId id);
 }

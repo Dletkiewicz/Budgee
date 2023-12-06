@@ -19,9 +19,9 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
 
   interface SpringDataIncomeRepository extends JpaRepository<IncomeEntity, UUID> {
 
-    void deleteByBusinessId(UUID id);
+    void deleteByBudgetBusinessIdAndBusinessId(UUID budgetId, UUID id);
 
-    Optional<IncomeEntity> findOneByBusinessId(UUID id);
+    Optional<IncomeEntity> findOneByBudgetBusinessIdAndBusinessId(UUID budgetId, UUID incomeId);
   }
 
   interface SpringDataBudgetRepository extends JpaRepository<BudgetEntity, UUID> {
@@ -42,8 +42,8 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
 
   @Override
   @Transactional
-  public void delete(IncomeId id) {
-    incomes.deleteByBusinessId(id.value());
+  public void delete(BudgetId budgetId, IncomeId id) {
+    incomes.deleteByBudgetBusinessIdAndBusinessId(budgetId.value(), id.value());
   }
 
   @Override
@@ -52,7 +52,7 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
   }
 
   @Override
-  public Optional<Income> findOneById(IncomeId id) {
-    return incomes.findOneByBusinessId(id.value()).map(IncomeEntity::toModel);
+  public Optional<Income> findOneById(BudgetId budgetId, IncomeId id) {
+    return incomes.findOneByBudgetBusinessIdAndBusinessId(budgetId.value(), id.value()).map(IncomeEntity::toModel);
   }
 }
