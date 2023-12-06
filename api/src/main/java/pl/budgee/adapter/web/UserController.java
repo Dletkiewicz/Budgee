@@ -49,6 +49,8 @@ public class UserController {
       return ResponseEntity.ok(UserDto.of(user));
     } catch (UsernameTakenException e) {
       throw new ResponseStatusException(HttpStatus.CONFLICT, e.getLocalizedMessage(), e);
+    } catch (UserNotFoundException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
     }
   }
 

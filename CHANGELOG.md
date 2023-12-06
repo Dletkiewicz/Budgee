@@ -63,3 +63,7 @@
 - Added user exceptions
 ### Removed
 - Removed GlobalExceptionHandler
+
+## [0.0.11] 7-create-incomes-crud
+### Added
+- Added income creating usecase/controller methods/repository methods
