@@ -6,10 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import pl.budgee.domain.port.BudgetRepository;
 import pl.budgee.domain.port.IncomeRepository;
 import pl.budgee.domain.port.UserRepository;
-import pl.budgee.domain.usecase.CreateIncome;
-import pl.budgee.domain.usecase.CreateUser;
-import pl.budgee.domain.usecase.DeleteUser;
-import pl.budgee.domain.usecase.UpdateUser;
+import pl.budgee.domain.usecase.*;
 
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
@@ -37,5 +34,10 @@ public class UsecaseConfig {
   @Bean
   CreateIncome createIncome() {
     return new CreateIncome(incomes, budgets);
+  }
+
+  @Bean
+  DeleteIncome deleteIncome() {
+    return new DeleteIncome(incomes);
   }
 }
