@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.budgee.adapter.jpa.BudgetEntity.EntityResolver;
 import pl.budgee.domain.model.Budget;
+import pl.budgee.domain.model.Budget.BudgetId;
 import pl.budgee.domain.model.User.UserId;
 import pl.budgee.domain.port.BudgetRepository;
 
@@ -20,6 +21,9 @@ public class JpaBudgetRepository implements BudgetRepository, EntityResolver {
   interface SpringDataBudgetRepository extends JpaRepository<BudgetEntity, UUID> {
 
     void deleteByBusinessId(UUID id);
+
+    @EntityGraph(attributePaths = {"user"})
+    Optional<BudgetEntity> findOneByBusinessId(UUID id);
 
     @EntityGraph(attributePaths = {"user"})
     Optional<BudgetEntity> findOneByUserBusinessId(UUID id);
@@ -40,6 +44,11 @@ public class JpaBudgetRepository implements BudgetRepository, EntityResolver {
     budgets.findOneByUserBusinessId(budget.userId().value())
         .map(e -> e.update(budget))
         .orElseGet(() -> budgets.save(BudgetEntity.create(this, budget)));
+  }
+
+  @Override
+  public Optional<Budget> findOneById(BudgetId id) {
+    return budgets.findOneByBusinessId(id.value()).map(BudgetEntity::toModel);
   }
 
   @Override

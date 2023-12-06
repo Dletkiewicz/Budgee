@@ -8,6 +8,7 @@ import pl.budgee.domain.model.Budget.BudgetId;
 import pl.budgee.domain.model.Income;
 import pl.budgee.domain.model.Income.IncomeId;
 import pl.budgee.domain.model.IncomeType;
+import pl.budgee.domain.model.User.UserId;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -16,6 +17,11 @@ import java.util.UUID;
 @Table(name = "incomes")
 @EntityListeners(AuditingEntityListener.class)
 public class IncomeEntity {
+
+  interface EntityResolver {
+
+    BudgetEntity resolve(BudgetId id);
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -43,6 +49,16 @@ public class IncomeEntity {
 
   @Embedded
   private AuditMixin audit = new AuditMixin();
+
+  static IncomeEntity create(EntityResolver entityResolver, Income income) {
+    var entity = new IncomeEntity();
+    entity.businessId = income.id().value();
+    entity.budget = entityResolver.resolve(income.budgetId());
+    entity.amount = income.amount();
+    entity.type = income.type();
+    entity.description = income.description();
+    return entity;
+  }
 
   Income toModel() {
     return new Income(new IncomeId(businessId), new BudgetId(budget.getBusinessId()), amount, type, description,
