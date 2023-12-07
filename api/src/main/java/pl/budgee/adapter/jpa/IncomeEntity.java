@@ -60,6 +60,13 @@ public class IncomeEntity {
     return entity;
   }
 
+  IncomeEntity update(Income income) {
+    amount = income.amount();
+    type = income.type();
+    description = income.description();
+    return this;
+  }
+
   Income toModel() {
     return new Income(new IncomeId(businessId), new BudgetId(budget.getBusinessId()), amount, type, description,
         audit.toModel());

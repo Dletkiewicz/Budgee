@@ -17,6 +17,11 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 public class ExpenseEntity {
 
+  interface EntityResolver {
+
+    BudgetEntity resolve(BudgetId id);
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name = "id")
@@ -43,6 +48,23 @@ public class ExpenseEntity {
 
   @Embedded
   private AuditMixin audit = new AuditMixin();
+
+  static ExpenseEntity create(EntityResolver entityResolver, Expense expense) {
+    var entity = new ExpenseEntity();
+    entity.businessId = expense.id().value();
+    entity.budget = entityResolver.resolve(expense.budgetId());
+    entity.amount = expense.amount();
+    entity.type = expense.type();
+    entity.description = expense.description();
+    return entity;
+  }
+
+  ExpenseEntity update(Expense expense) {
+    amount = expense.amount();
+    type = expense.type();
+    description = expense.description();
+    return this;
+  }
 
   Expense toModel() {
     return new Expense(new ExpenseId(businessId), new BudgetId(budget.getBusinessId()), amount, type, description,
