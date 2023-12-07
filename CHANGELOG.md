@@ -68,3 +68,8 @@
 ### Added
 - Added income creating usecase/controller methods/repository methods
 - Added deleting income
+
+## [0.0.12] 8-create-expenses-crud
+### Added
+- Added creating/deleting expense usecases
+- Added creating/deleting controller methods/web models

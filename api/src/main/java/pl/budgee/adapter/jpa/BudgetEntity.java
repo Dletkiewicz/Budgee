@@ -6,6 +6,7 @@ import org.hibernate.annotations.NaturalId;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pl.budgee.domain.model.Budget;
 import pl.budgee.domain.model.Budget.BudgetId;
+import pl.budgee.domain.model.Expense;
 import pl.budgee.domain.model.Income;
 import pl.budgee.domain.model.User.UserId;
 
@@ -60,6 +61,10 @@ public class BudgetEntity {
 
   void addBalance(Income income) {
     balance = balance.add(income.amount());
+  }
+
+  void subtractBalance(Expense expense) {
+    balance = balance.subtract(expense.amount());
   }
 
   Budget toModel() {

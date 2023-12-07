@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.budgee.domain.port.BudgetRepository;
+import pl.budgee.domain.port.ExpenseRepository;
 import pl.budgee.domain.port.IncomeRepository;
 import pl.budgee.domain.port.UserRepository;
 import pl.budgee.domain.usecase.*;
@@ -15,6 +16,7 @@ public class UsecaseConfig {
   private final UserRepository users;
   private final BudgetRepository budgets;
   private final IncomeRepository incomes;
+  private final ExpenseRepository expenses;
 
   @Bean
   CreateUser createUser() {
@@ -38,6 +40,16 @@ public class UsecaseConfig {
 
   @Bean
   DeleteIncome deleteIncome() {
-    return new DeleteIncome(incomes);
+    return new DeleteIncome(incomes, budgets);
+  }
+
+  @Bean
+  CreateExpense createExpense() {
+    return new CreateExpense(expenses, budgets);
+  }
+
+  @Bean
+  DeleteExpense deleteExpense() {
+    return new DeleteExpense(expenses, budgets);
   }
 }
