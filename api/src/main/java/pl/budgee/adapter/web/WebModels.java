@@ -5,11 +5,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
-import pl.budgee.domain.model.Audit;
+import pl.budgee.domain.model.*;
 import pl.budgee.domain.model.Budget.BudgetId;
-import pl.budgee.domain.model.Income;
-import pl.budgee.domain.model.IncomeType;
-import pl.budgee.domain.model.User;
+import pl.budgee.domain.usecase.CreateExpense.CreateExpenseRequest;
 import pl.budgee.domain.usecase.CreateIncome.CreateIncomeRequest;
 import pl.budgee.domain.usecase.CreateUser.CreateUserRequest;
 import pl.budgee.domain.usecase.UpdateUser.UpdateUserRequest;
@@ -44,6 +42,18 @@ public class WebModels {
     }
   }
 
+  @Value
+  static class ExpenseDto {
+    UUID id;
+    BigDecimal amount;
+    ExpenseType type;
+    String description;
+
+    static ExpenseDto of(Expense expense) {
+      return new ExpenseDto(expense.id().value(), expense.amount(), expense.type(), expense.description());
+    }
+  }
+
   @Data
   @NoArgsConstructor
   static class CreateUserDto {
@@ -70,6 +80,18 @@ public class WebModels {
 
     CreateIncomeRequest toRequest(BudgetId id) {
       return new CreateIncomeRequest(id, amount, type, description);
+    }
+  }
+
+  @Data
+  @NoArgsConstructor
+  static class CreateExpenseDto {
+    BigDecimal amount;
+    ExpenseType type;
+    String description;
+
+    CreateExpenseRequest toRequest(BudgetId id) {
+      return new CreateExpenseRequest(id, amount, type, description);
     }
   }
 
