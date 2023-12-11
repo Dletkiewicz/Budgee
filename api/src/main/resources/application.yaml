@@ -1,6 +1,13 @@
 spring:
   application:
     name: budgee
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 70dd7c3d0a3b0d6f43fd
+            client-secret: 4ba77a15c3a53df0b87866b8fd407ac24b5b8c03
 
   datasource:
     url: jdbc:postgresql://localhost:5432/budgee?useSSL=false
@@ -15,6 +22,7 @@ spring:
       hibernate:
         "[format_sql]": true
     open-in-view: false
+
 
   liquibase:
     change-log: "classpath:db/master.xml"
