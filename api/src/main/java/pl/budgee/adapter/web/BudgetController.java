@@ -38,11 +38,15 @@ public class BudgetController {
   @PostMapping("/{budgetId}/incomes")
   @Operation(summary = "Create new income")
   ResponseEntity<IncomeDto> createIncome(@PathVariable UUID budgetId, @Valid @RequestBody WebModels.CreateIncomeDto payload) {
-    var request = payload.toRequest(new BudgetId(budgetId));
-    var income = createIncome.create(request);
-    return ResponseEntity.created(
-            ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{incomeId}").build(income.id().value()))
-        .body(IncomeDto.of(income));
+    try {
+      var request = payload.toRequest(new BudgetId(budgetId));
+      var income = createIncome.create(request);
+      return ResponseEntity.created(
+              ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{incomeId}").build(income.id().value()))
+          .body(IncomeDto.of(income));
+    } catch (BudgetNotFoundException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
+    }
   }
 
   @PostMapping("/{budgetId}/expenses")
@@ -78,7 +82,7 @@ public class BudgetController {
       var request = new DeleteIncomeRequest(new BudgetId(budgetId), new IncomeId(incomeId));
       deleteIncome.delete(request);
       return ResponseEntity.noContent().build();
-    } catch (IncomeNotFoundException e) {
+    } catch (BudgetNotFoundException | IncomeNotFoundException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
     }
   }
