@@ -2,6 +2,7 @@ package pl.budgee.adapter.jpa;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.budgee.adapter.jpa.IncomeEntity.EntityResolver;
@@ -10,6 +11,7 @@ import pl.budgee.domain.model.Income;
 import pl.budgee.domain.model.Income.IncomeId;
 import pl.budgee.domain.port.IncomeRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,9 +21,14 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
 
   interface SpringDataIncomeRepository extends JpaRepository<IncomeEntity, UUID> {
 
+    @EntityGraph(attributePaths = {"budget"})
     void deleteByBudgetBusinessIdAndBusinessId(UUID budgetId, UUID id);
 
+    @EntityGraph(attributePaths = {"budget"})
     Optional<IncomeEntity> findOneByBudgetBusinessIdAndBusinessId(UUID budgetId, UUID incomeId);
+
+    @EntityGraph(attributePaths = {"budget"})
+    List<IncomeEntity> findAllByBudgetBusinessId(UUID budgetId);
   }
 
   interface SpringDataBudgetRepository extends JpaRepository<BudgetEntity, UUID> {
@@ -53,6 +60,13 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
   @Override
   public BudgetEntity resolve(BudgetId id) {
     return budgets.getByBusinessId(id.value());
+  }
+
+  @Override
+  public List<Income> findAll(BudgetId budgetId) {
+    return incomes.findAllByBudgetBusinessId(budgetId.value()).stream()
+        .map(IncomeEntity::toModel)
+        .toList();
   }
 
   @Override
