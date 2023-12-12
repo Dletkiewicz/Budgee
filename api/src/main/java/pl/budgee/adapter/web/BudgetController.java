@@ -16,12 +16,11 @@ import pl.budgee.domain.model.Expense.ExpenseId;
 import pl.budgee.domain.model.ExpenseNotFoundException;
 import pl.budgee.domain.model.Income.IncomeId;
 import pl.budgee.domain.model.IncomeNotFoundException;
-import pl.budgee.domain.usecase.CreateExpense;
-import pl.budgee.domain.usecase.CreateIncome;
-import pl.budgee.domain.usecase.DeleteExpense;
+import pl.budgee.domain.usecase.*;
 import pl.budgee.domain.usecase.DeleteExpense.DeleteExpenseRequest;
-import pl.budgee.domain.usecase.DeleteIncome;
 import pl.budgee.domain.usecase.DeleteIncome.DeleteIncomeRequest;
+import pl.budgee.domain.usecase.GetExpense.GetExpenseRequest;
+import pl.budgee.domain.usecase.GetIncome.GetIncomeRequest;
 
 import java.util.UUID;
 
@@ -30,10 +29,35 @@ import java.util.UUID;
 @RequestMapping("/api/v1")
 public class BudgetController {
 
+
+  private final GetIncome getIncome;
+  private final GetExpense getExpense;
   private final CreateIncome createIncome;
   private final DeleteIncome deleteIncome;
   private final CreateExpense createExpense;
   private final DeleteExpense deleteExpense;
+
+  @GetMapping("/{budgetId}/incomes/{incomeId}")
+  @Operation(summary = "Get single income")
+  IncomeDto getIncome(@PathVariable UUID budgetId, @PathVariable UUID incomeId) {
+    try {
+      var request = new GetIncomeRequest(new BudgetId(budgetId), new IncomeId(incomeId));
+      return IncomeDto.of(getIncome.get(request));
+    } catch (BudgetNotFoundException | IncomeNotFoundException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
+    }
+  }
+
+  @GetMapping("/{budgetId}/expenses/{expenseId}")
+  @Operation(summary = "Get single expense")
+  ExpenseDto getExpense(@PathVariable UUID budgetId, @PathVariable UUID expenseId) {
+    try {
+      var request = new GetExpenseRequest(new BudgetId(budgetId), new ExpenseId(expenseId));
+      return ExpenseDto.of(getExpense.get(request));
+    } catch (BudgetNotFoundException | ExpenseNotFoundException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
+    }
+  }
 
   @PostMapping("/{budgetId}/incomes")
   @Operation(summary = "Create new income")
