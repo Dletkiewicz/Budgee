@@ -3,6 +3,7 @@ package pl.budgee.adapter.web;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,8 @@ import pl.budgee.domain.usecase.DeleteExpense.DeleteExpenseRequest;
 import pl.budgee.domain.usecase.DeleteIncome.DeleteIncomeRequest;
 import pl.budgee.domain.usecase.GetExpense.GetExpenseRequest;
 import pl.budgee.domain.usecase.GetIncome.GetIncomeRequest;
+import pl.budgee.domain.usecase.ListExpenses.ListExpensesRequest;
+import pl.budgee.domain.usecase.ListIncomes.ListIncomesRequest;
 
 import java.util.UUID;
 
@@ -32,10 +35,34 @@ public class BudgetController {
 
   private final GetIncome getIncome;
   private final GetExpense getExpense;
+  private final ListIncomes listIncomes;
+  private final ListExpenses listExpenses;
   private final CreateIncome createIncome;
   private final DeleteIncome deleteIncome;
   private final CreateExpense createExpense;
   private final DeleteExpense deleteExpense;
+
+  @GetMapping("/{budgetId}/incomes")
+  @Operation(summary = "List incomes")
+  Slice<IncomeDto> listIncomes(@PathVariable UUID budgetId) {
+    try {
+      var request = new ListIncomesRequest(new BudgetId(budgetId));
+      return listIncomes.list(request).map(IncomeDto::of);
+    } catch (BudgetNotFoundException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
+    }
+  }
+
+  @GetMapping("/{budgetId}/expenses")
+  @Operation(summary = "List expenses")
+  Slice<ExpenseDto> listExpenses(@PathVariable UUID budgetId) {
+    try {
+      var request = new ListExpensesRequest(new BudgetId(budgetId));
+      return listExpenses.list(request).map(ExpenseDto::of);
+    } catch (BudgetNotFoundException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
+    }
+  }
 
   @GetMapping("/{budgetId}/incomes/{incomeId}")
   @Operation(summary = "Get single income")

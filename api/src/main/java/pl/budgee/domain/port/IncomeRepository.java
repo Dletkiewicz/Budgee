@@ -1,11 +1,10 @@
 package pl.budgee.domain.port;
 
-import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Slice;
 import pl.budgee.domain.model.Budget.BudgetId;
 import pl.budgee.domain.model.Income;
 import pl.budgee.domain.model.Income.IncomeId;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface IncomeRepository {
@@ -16,5 +15,5 @@ public interface IncomeRepository {
 
   Optional<Income> findOneById(BudgetId budgetId, IncomeId id);
 
-  List<Income> findAll(BudgetId budgetId);
+  Slice<Income> findAll(BudgetId budgetId);
 }

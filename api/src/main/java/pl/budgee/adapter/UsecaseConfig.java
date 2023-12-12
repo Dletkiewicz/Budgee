@@ -24,6 +24,16 @@ public class UsecaseConfig {
   }
 
   @Bean
+  ListExpenses listExpenses() {
+    return new ListExpenses(budgets, expenses);
+  }
+
+  @Bean
+  ListIncomes listIncomes() {
+    return new ListIncomes(budgets, incomes);
+  }
+
+  @Bean
   GetExpense getExpense() {
     return new GetExpense(expenses, budgets);
   }
