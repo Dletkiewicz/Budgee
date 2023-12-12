@@ -2,6 +2,7 @@ package pl.budgee.adapter.jpa;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,7 +28,7 @@ public class JpaExpenseRepository implements ExpenseRepository, EntityResolver {
     void deleteByBudgetBusinessIdAndBusinessId(UUID budgetId, UUID id);
 
     @EntityGraph(attributePaths = {"budget"})
-    Slice<ExpenseEntity> findAllByBudgetBusinessId(UUID budgetId);
+    Slice<ExpenseEntity> findAllByBudgetBusinessId(UUID budgetId, Pageable pageable);
 
   }
 
@@ -61,8 +62,8 @@ public class JpaExpenseRepository implements ExpenseRepository, EntityResolver {
   }
 
   @Override
-  public Slice<Expense> findAll(BudgetId budgetId) {
-    return expenses.findAllByBudgetBusinessId(budgetId.value()).map(ExpenseEntity::toModel);
+  public Slice<Expense> findAll(BudgetId budgetId, Pageable pageable) {
+    return expenses.findAllByBudgetBusinessId(budgetId.value(), pageable).map(ExpenseEntity::toModel);
   }
 
   @Override

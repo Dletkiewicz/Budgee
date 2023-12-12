@@ -3,7 +3,10 @@ package pl.budgee.adapter.web;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,7 @@ import pl.budgee.domain.usecase.GetIncome.GetIncomeRequest;
 import pl.budgee.domain.usecase.ListExpenses.ListExpensesRequest;
 import pl.budgee.domain.usecase.ListIncomes.ListIncomesRequest;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -44,9 +48,9 @@ public class BudgetController {
 
   @GetMapping("/{budgetId}/incomes")
   @Operation(summary = "List incomes")
-  Slice<IncomeDto> listIncomes(@PathVariable UUID budgetId) {
+  Slice<IncomeDto> listIncomes(@PathVariable UUID budgetId, @ParameterObject @PageableDefault(size = 5) Pageable pageable) {
     try {
-      var request = new ListIncomesRequest(new BudgetId(budgetId));
+      var request = new ListIncomesRequest(new BudgetId(budgetId), pageable);
       return listIncomes.list(request).map(IncomeDto::of);
     } catch (BudgetNotFoundException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
@@ -55,9 +59,9 @@ public class BudgetController {
 
   @GetMapping("/{budgetId}/expenses")
   @Operation(summary = "List expenses")
-  Slice<ExpenseDto> listExpenses(@PathVariable UUID budgetId) {
+  Slice<ExpenseDto> listExpenses(@PathVariable UUID budgetId, @ParameterObject @PageableDefault(size = 5) Pageable pageable) {
     try {
-      var request = new ListExpensesRequest(new BudgetId(budgetId));
+      var request = new ListExpensesRequest(new BudgetId(budgetId), pageable);
       return listExpenses.list(request).map(ExpenseDto::of);
     } catch (BudgetNotFoundException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
