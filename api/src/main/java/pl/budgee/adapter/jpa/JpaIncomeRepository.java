@@ -42,13 +42,11 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
   @Override
   @Transactional
   public Income save(Income income) {
-    var budget = budgets.getByBusinessId(income.budgetId().value());
-    budget.addBalance(income);
-    var entity = incomes.findOneByBudgetBusinessIdAndBusinessId(budget.getBusinessId(), income.id().value())
+    var entity = incomes.findOneByBudgetBusinessIdAndBusinessId(income.budgetId().value(), income.id().value())
         .map(e -> e.update(income))
-        .orElseGet(() -> IncomeEntity.create(this, income)).toModel();
+        .orElseGet(() -> incomes.save(IncomeEntity.create(this, income)));
 
-    return entity;
+    return entity.toModel();
   }
 
   @Override

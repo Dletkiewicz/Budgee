@@ -42,13 +42,11 @@ public class JpaExpenseRepository implements ExpenseRepository, EntityResolver {
   @Override
   @Transactional
   public Expense save(Expense expense) {
-    var budget = budgets.getByBusinessId(expense.budgetId().value());
-    budget.subtractBalance(expense);
     var entity = expenses.findOneByBusinessId(expense.id().value())
         .map(e -> e.update(expense))
-        .orElseGet(() -> ExpenseEntity.create(this, expense)).toModel();
+        .orElseGet(() -> expenses.save(ExpenseEntity.create(this, expense)));
 
-    return entity;
+    return entity.toModel();
   }
 
   @Override
