@@ -19,6 +19,26 @@ public class UsecaseConfig {
   private final ExpenseRepository expenses;
 
   @Bean
+  GetIncome getIncome() {
+    return new GetIncome(incomes, budgets);
+  }
+
+  @Bean
+  ListExpenses listExpenses() {
+    return new ListExpenses(budgets, expenses);
+  }
+
+  @Bean
+  ListIncomes listIncomes() {
+    return new ListIncomes(budgets, incomes);
+  }
+
+  @Bean
+  GetExpense getExpense() {
+    return new GetExpense(expenses, budgets);
+  }
+
+  @Bean
   CreateUser createUser() {
     return new CreateUser(users, budgets);
   }

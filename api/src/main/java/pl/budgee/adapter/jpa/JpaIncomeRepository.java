@@ -2,6 +2,9 @@ package pl.budgee.adapter.jpa;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.budgee.adapter.jpa.IncomeEntity.EntityResolver;
@@ -19,9 +22,14 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
 
   interface SpringDataIncomeRepository extends JpaRepository<IncomeEntity, UUID> {
 
+    @EntityGraph(attributePaths = {"budget"})
     void deleteByBudgetBusinessIdAndBusinessId(UUID budgetId, UUID id);
 
+    @EntityGraph(attributePaths = {"budget"})
     Optional<IncomeEntity> findOneByBudgetBusinessIdAndBusinessId(UUID budgetId, UUID incomeId);
+
+    @EntityGraph(attributePaths = {"budget"})
+    Slice<IncomeEntity> findAllByBudgetBusinessId(UUID budgetId, Pageable pageable);
   }
 
   interface SpringDataBudgetRepository extends JpaRepository<BudgetEntity, UUID> {
@@ -35,13 +43,11 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
   @Override
   @Transactional
   public Income save(Income income) {
-    var budget = budgets.getByBusinessId(income.budgetId().value());
-    budget.addBalance(income);
-    var entity = incomes.findOneByBudgetBusinessIdAndBusinessId(budget.getBusinessId(), income.id().value())
+    var entity = incomes.findOneByBudgetBusinessIdAndBusinessId(income.budgetId().value(), income.id().value())
         .map(e -> e.update(income))
-        .orElseGet(() -> IncomeEntity.create(this, income)).toModel();
+        .orElseGet(() -> incomes.save(IncomeEntity.create(this, income)));
 
-    return entity;
+    return entity.toModel();
   }
 
   @Override
@@ -53,6 +59,11 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
   @Override
   public BudgetEntity resolve(BudgetId id) {
     return budgets.getByBusinessId(id.value());
+  }
+
+  @Override
+  public Slice<Income> findAll(BudgetId budgetId, Pageable pageable) {
+    return incomes.findAllByBudgetBusinessId(budgetId.value(), pageable).map(IncomeEntity::toModel);
   }
 
   @Override

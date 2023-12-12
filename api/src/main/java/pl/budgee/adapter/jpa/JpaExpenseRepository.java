@@ -1,6 +1,10 @@
 package pl.budgee.adapter.jpa;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.budgee.adapter.jpa.ExpenseEntity.EntityResolver;
@@ -20,7 +24,11 @@ public class JpaExpenseRepository implements ExpenseRepository, EntityResolver {
 
     Optional<ExpenseEntity> findOneByBusinessId(UUID id);
 
+    @EntityGraph(attributePaths = {"budget"})
     void deleteByBudgetBusinessIdAndBusinessId(UUID budgetId, UUID id);
+
+    @EntityGraph(attributePaths = {"budget"})
+    Slice<ExpenseEntity> findAllByBudgetBusinessId(UUID budgetId, Pageable pageable);
 
   }
 
@@ -33,14 +41,13 @@ public class JpaExpenseRepository implements ExpenseRepository, EntityResolver {
   private final SpringDataBudgetRepository budgets;
 
   @Override
+  @Transactional
   public Expense save(Expense expense) {
-    var budget = budgets.getByBusinessId(expense.budgetId().value());
-    budget.subtractBalance(expense);
     var entity = expenses.findOneByBusinessId(expense.id().value())
         .map(e -> e.update(expense))
-        .orElseGet(() -> ExpenseEntity.create(this, expense)).toModel();
+        .orElseGet(() -> expenses.save(ExpenseEntity.create(this, expense)));
 
-    return entity;
+    return entity.toModel();
   }
 
   @Override
@@ -49,8 +56,14 @@ public class JpaExpenseRepository implements ExpenseRepository, EntityResolver {
   }
 
   @Override
+  @Transactional
   public void delete(BudgetId budgetId, ExpenseId id) {
     expenses.deleteByBudgetBusinessIdAndBusinessId(budgetId.value(), id.value());
+  }
+
+  @Override
+  public Slice<Expense> findAll(BudgetId budgetId, Pageable pageable) {
+    return expenses.findAllByBudgetBusinessId(budgetId.value(), pageable).map(ExpenseEntity::toModel);
   }
 
   @Override

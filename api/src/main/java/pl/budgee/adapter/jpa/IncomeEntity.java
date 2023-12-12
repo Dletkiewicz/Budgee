@@ -8,7 +8,6 @@ import pl.budgee.domain.model.Budget.BudgetId;
 import pl.budgee.domain.model.Income;
 import pl.budgee.domain.model.Income.IncomeId;
 import pl.budgee.domain.model.IncomeType;
-import pl.budgee.domain.model.User.UserId;
 
 import java.math.BigDecimal;
 import java.util.UUID;
