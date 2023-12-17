@@ -1,6 +1,11 @@
 # Budgee
 Application developed to track and monitor budget
 
+## Authors
+
+- [@Dletkiewicz](https://www.github.com/dletkiewicz) - Backend
+- [@Zevcore](https://www.github.com/Zevcore) - Frontend / DevOps
+
 ## Run application using Docker
 
 The application uses the docker tool to virtualize individual elements in containers.
