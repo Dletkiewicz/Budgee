@@ -19,11 +19,11 @@ services:
     image: postgres:16
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}  # Change to the PostgreSQL environment variable for the database name
-      POSTGRES_USER: ${POSTGRES_USER}  # Change to the PostgreSQL environment variable for the username
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # Change to the PostgreSQL environment variable for the password
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "5432:5432"  # Change to the default PostgreSQL port
+      - "5432:5432"
     networks:
       - api
 
