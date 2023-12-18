@@ -69,7 +69,7 @@ public class BudgetController {
   }
 
   @GetMapping("/{budgetId}/incomes/{incomeId}")
-  @Operation(summary = "Get single income")
+  @Operation(summary = "Get income")
   IncomeDto getIncome(@PathVariable UUID budgetId, @PathVariable UUID incomeId) {
     try {
       var request = new GetIncomeRequest(new BudgetId(budgetId), new IncomeId(incomeId));
@@ -80,7 +80,7 @@ public class BudgetController {
   }
 
   @GetMapping("/{budgetId}/expenses/{expenseId}")
-  @Operation(summary = "Get single expense")
+  @Operation(summary = "Get expense")
   ExpenseDto getExpense(@PathVariable UUID budgetId, @PathVariable UUID expenseId) {
     try {
       var request = new GetExpenseRequest(new BudgetId(budgetId), new ExpenseId(expenseId));
@@ -91,7 +91,7 @@ public class BudgetController {
   }
 
   @PostMapping("/{budgetId}/incomes")
-  @Operation(summary = "Create new income")
+  @Operation(summary = "Create income")
   ResponseEntity<IncomeDto> createIncome(@PathVariable UUID budgetId, @Valid @RequestBody WebModels.CreateIncomeDto payload) {
     try {
       var request = payload.toRequest(new BudgetId(budgetId));
@@ -105,7 +105,7 @@ public class BudgetController {
   }
 
   @PostMapping("/{budgetId}/expenses")
-  @Operation(summary = "Create new expense")
+  @Operation(summary = "Create expense")
   ResponseEntity<ExpenseDto> createExpense(@PathVariable UUID budgetId, @Valid @RequestBody WebModels.CreateExpenseDto payload) {
     try {
       var request = payload.toRequest(new BudgetId(budgetId));
@@ -118,18 +118,6 @@ public class BudgetController {
     }
   }
 
-  @DeleteMapping("/{budgetId}/expenses/{expenseId}")
-  @Operation(summary = "Create new expense")
-  ResponseEntity<Void> createExpense(@PathVariable UUID budgetId, @PathVariable UUID expenseId) {
-    try {
-      var request = new DeleteExpenseRequest(new BudgetId(budgetId), new ExpenseId(expenseId));
-      deleteExpense.delete(request);
-      return ResponseEntity.noContent().build();
-    } catch (BudgetNotFoundException | ExpenseNotFoundException e) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
-    }
-  }
-
   @DeleteMapping("/{budgetId}/incomes/{incomeId}")
   @Operation(summary = "Delete income")
   ResponseEntity<Void> deleteIncome(@PathVariable UUID budgetId, @PathVariable UUID incomeId) {
@@ -138,6 +126,18 @@ public class BudgetController {
       deleteIncome.delete(request);
       return ResponseEntity.noContent().build();
     } catch (BudgetNotFoundException | IncomeNotFoundException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
+    }
+  }
+
+  @DeleteMapping("/{budgetId}/expenses/{expenseId}")
+  @Operation(summary = "Delete expense")
+  ResponseEntity<Void> deleteExpense(@PathVariable UUID budgetId, @PathVariable UUID expenseId) {
+    try {
+      var request = new DeleteExpenseRequest(new BudgetId(budgetId), new ExpenseId(expenseId));
+      deleteExpense.delete(request);
+      return ResponseEntity.noContent().build();
+    } catch (BudgetNotFoundException | ExpenseNotFoundException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
     }
   }
