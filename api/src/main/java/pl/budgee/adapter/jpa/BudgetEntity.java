@@ -54,7 +54,6 @@ public class BudgetEntity {
   }
 
   BudgetEntity update(Budget budget) {
-    balance = budget.balance();
     currency = budget.currency();
     return this;
   }

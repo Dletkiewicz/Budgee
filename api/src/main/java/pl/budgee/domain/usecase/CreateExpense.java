@@ -24,7 +24,6 @@ public class CreateExpense {
   public Expense create(CreateExpenseRequest request) {
     var budget = budgets.findOneById(request.budgetId()).orElseThrow(() -> new BudgetNotFoundException(request.budgetId()));
 
-    return expenses.save(new Expense(ExpenseId.create(), budget.id(), request.amount, request.type, request.description, null));
-
+    return expenses.save(new Expense(ExpenseId.create(), budget.id(), request.amount(), request.type(), request.description(), null));
   }
 }
