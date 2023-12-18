@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.budgee.adapter.web.WebModels.CreateIncomeDto;
 import pl.budgee.adapter.web.WebModels.ExpenseDto;
 import pl.budgee.adapter.web.WebModels.IncomeDto;
 import pl.budgee.domain.model.Budget.BudgetId;
@@ -28,7 +29,6 @@ import pl.budgee.domain.usecase.GetIncome.GetIncomeRequest;
 import pl.budgee.domain.usecase.ListExpenses.ListExpensesRequest;
 import pl.budgee.domain.usecase.ListIncomes.ListIncomesRequest;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -92,7 +92,7 @@ public class BudgetController {
 
   @PostMapping("/{budgetId}/incomes")
   @Operation(summary = "Create income")
-  ResponseEntity<IncomeDto> createIncome(@PathVariable UUID budgetId, @Valid @RequestBody WebModels.CreateIncomeDto payload) {
+  ResponseEntity<IncomeDto> createIncome(@PathVariable UUID budgetId, @Valid @RequestBody CreateIncomeDto payload) {
     try {
       var request = payload.toRequest(new BudgetId(budgetId));
       var income = createIncome.create(request);
