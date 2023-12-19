@@ -11,6 +11,7 @@ import pl.budgee.domain.model.Budget.BudgetId;
 import pl.budgee.domain.model.User.UserId;
 import pl.budgee.domain.port.BudgetRepository;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,6 +29,8 @@ public class JpaBudgetRepository implements BudgetRepository, EntityResolver {
     @EntityGraph(attributePaths = {"user"})
     Optional<BudgetEntity> findOneByUserBusinessId(UUID id);
 
+    BudgetEntity getOneByBusinessId(UUID id);
+
   }
 
   interface SpringDataUserRepository extends JpaRepository<UserEntity, UUID> {
@@ -41,9 +44,20 @@ public class JpaBudgetRepository implements BudgetRepository, EntityResolver {
   @Override
   @Transactional
   public void save(Budget budget) {
-    budgets.findOneByUserBusinessId(budget.userId().value())
-        .map(e -> e.update(budget))
+    budgets.findOneByUserBusinessId(budget.userId().value()).map(e -> e.update(budget))
         .orElseGet(() -> budgets.save(BudgetEntity.create(this, budget)));
+  }
+
+  @Override
+  public void subtractBalance(Budget budget, BigDecimal amount) {
+    var entity = budgets.getOneByBusinessId(budget.id().value());
+    entity.subtractBalance(amount);
+  }
+
+  @Override
+  public void addBalance(Budget budget, BigDecimal amount) {
+    var entity = budgets.getOneByBusinessId(budget.id().value());
+    entity.addBalance(amount);
   }
 
   @Override

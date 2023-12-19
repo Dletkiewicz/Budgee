@@ -58,12 +58,12 @@ public class BudgetEntity {
     return this;
   }
 
-  void addBalance(Income income) {
-    balance = balance.add(income.amount());
+  void addBalance(BigDecimal amount) {
+    balance = balance.add(amount);
   }
 
-  void subtractBalance(Expense expense) {
-    balance = balance.subtract(expense.amount());
+  void subtractBalance(BigDecimal amount) {
+    balance = balance.subtract(amount);
   }
 
   Budget toModel() {
