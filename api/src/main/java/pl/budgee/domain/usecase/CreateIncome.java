@@ -24,6 +24,8 @@ public class CreateIncome {
   public Income create(CreateIncomeRequest request) {
     var budget = budgets.findOneById(request.budgetId()).orElseThrow(() -> new BudgetNotFoundException(request.budgetId()));
 
+    budgets.addBalance(budget, request.amount());
+
     return incomes.save(new Income(IncomeId.create(), budget.id(), request.amount(), request.type(), request.description(), null));
   }
 }
