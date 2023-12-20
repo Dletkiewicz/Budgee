@@ -24,6 +24,11 @@ public class UsecaseConfig {
   }
 
   @Bean
+  GetIncomeSum getIncomeSum() {
+    return new GetIncomeSum(budgets, incomes);
+  }
+
+  @Bean
   ListExpenses listExpenses() {
     return new ListExpenses(budgets, expenses);
   }

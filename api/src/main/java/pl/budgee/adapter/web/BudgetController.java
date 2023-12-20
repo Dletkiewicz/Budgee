@@ -7,6 +7,7 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,14 @@ import pl.budgee.domain.usecase.DeleteExpense.DeleteExpenseRequest;
 import pl.budgee.domain.usecase.DeleteIncome.DeleteIncomeRequest;
 import pl.budgee.domain.usecase.GetExpense.GetExpenseRequest;
 import pl.budgee.domain.usecase.GetIncome.GetIncomeRequest;
+import pl.budgee.domain.usecase.GetIncomeSum.GetIncomeSumRequest;
 import pl.budgee.domain.usecase.ListExpenses.ListExpensesRequest;
 import pl.budgee.domain.usecase.ListIncomes.ListIncomesRequest;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.UUID;
 
 @RestController
@@ -45,6 +51,7 @@ public class BudgetController {
   private final DeleteIncome deleteIncome;
   private final CreateExpense createExpense;
   private final DeleteExpense deleteExpense;
+  private final GetIncomeSum getIncomeSum;
 
   @GetMapping("/{budgetId}/incomes")
   @Operation(summary = "List incomes")
@@ -66,6 +73,20 @@ public class BudgetController {
     } catch (BudgetNotFoundException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e);
     }
+  }
+
+  @GetMapping("/{budgetId}/incomes/sum")
+  @Operation(summary = "Get incomes sum")
+  ResponseEntity<BigDecimal> getSum(@PathVariable UUID budgetId,
+      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime startDate,
+      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime endDate) {
+
+    Instant startInstant = startDate.atZone(ZoneId.systemDefault()).toInstant();
+    Instant endInstant = endDate.atZone(ZoneId.systemDefault()).toInstant();
+
+    var request = new GetIncomeSumRequest(new BudgetId(budgetId), startInstant, endInstant);
+    var sum = getIncomeSum.getSum(request);
+    return ResponseEntity.ok().body(sum);
   }
 
   @GetMapping("/{budgetId}/incomes/{incomeId}")
