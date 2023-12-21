@@ -1,4 +1,4 @@
-package pl.budgee;
+package pl.budgee.user;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
