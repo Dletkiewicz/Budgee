@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import pl.budgee.domain.model.Budget;
 import pl.budgee.domain.model.BudgetNotFoundException;
 import pl.budgee.domain.model.User.UserId;
-import pl.budgee.domain.model.UserNotFoundException;
 import pl.budgee.domain.port.BudgetRepository;
 
 @RequiredArgsConstructor

@@ -2,7 +2,6 @@ package pl.budgee.adapter.jpa;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -18,7 +17,6 @@ import pl.budgee.domain.port.IncomeRepository;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 

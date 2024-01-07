@@ -10,7 +10,6 @@ import pl.budgee.domain.model.Budget.BudgetId;
 import pl.budgee.domain.usecase.CreateExpense.CreateExpenseRequest;
 import pl.budgee.domain.usecase.CreateIncome.CreateIncomeRequest;
 import pl.budgee.domain.usecase.CreateUser.CreateUserRequest;
-import pl.budgee.domain.usecase.GetIncomeSum;
 import pl.budgee.domain.usecase.GetIncomeSum.GetIncomeSumRequest;
 import pl.budgee.domain.usecase.UpdateUser.UpdateUserRequest;
 
