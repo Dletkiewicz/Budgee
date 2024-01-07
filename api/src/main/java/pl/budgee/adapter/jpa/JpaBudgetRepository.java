@@ -24,10 +24,10 @@ public class JpaBudgetRepository implements BudgetRepository, EntityResolver {
     void deleteByBusinessId(UUID id);
 
     @EntityGraph(attributePaths = {"user"})
-    Optional<BudgetEntity> findOneByBusinessId(UUID id);
+    Optional<BudgetEntity> findOneByUserBusinessId(UUID id);
 
     @EntityGraph(attributePaths = {"user"})
-    Optional<BudgetEntity> findOneByUserBusinessId(UUID id);
+    Optional<BudgetEntity> findOneByBusinessId(UUID id);
 
     BudgetEntity getOneByBusinessId(UUID id);
 
@@ -63,6 +63,11 @@ public class JpaBudgetRepository implements BudgetRepository, EntityResolver {
   @Override
   public Optional<Budget> findOneById(BudgetId id) {
     return budgets.findOneByBusinessId(id.value()).map(BudgetEntity::toModel);
+  }
+
+  @Override
+  public Optional<Budget> findOneByUser(UserId id) {
+    return budgets.findOneByUserBusinessId(id.value()).map(BudgetEntity::toModel);
   }
 
   @Override

@@ -77,4 +77,9 @@ public class UsecaseConfig {
   DeleteExpense deleteExpense() {
     return new DeleteExpense(expenses, budgets);
   }
+
+  @Bean
+  GetBudget getBudget() {
+    return new GetBudget(budgets);
+  }
 }

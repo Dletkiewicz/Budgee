@@ -16,6 +16,7 @@ import pl.budgee.domain.usecase.UpdateUser.UpdateUserRequest;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Currency;
 import java.util.UUID;
 
 public class WebModels {
@@ -54,6 +55,17 @@ public class WebModels {
 
     static ExpenseDto of(Expense expense) {
       return new ExpenseDto(expense.id().value(), expense.amount(), expense.type(), expense.description());
+    }
+  }
+
+  @Value
+  static class BudgetDto {
+    UUID id;
+    BigDecimal balance;
+    Currency currency;
+
+    static BudgetDto of(Budget budget) {
+      return new BudgetDto(budget.id().value(), budget.balance(), budget.currency());
     }
   }
 
