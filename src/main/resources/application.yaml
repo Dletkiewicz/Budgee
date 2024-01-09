@@ -4,7 +4,7 @@ spring:
 
   datasource:
     url: jdbc:postgresql://db:5432/budgee_db
-    username: root
+    username: admin
     password: admin
 
   jpa:
