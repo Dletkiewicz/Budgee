@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: budgee
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/budgee_db?useSSL=false
+    username: user
+    password: passwd
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: "${SHOW_SQL:true}"
+    properties:
+      hibernate:
+        "[format_sql]": true
+    open-in-view: false
+
+  liquibase:
+    change-log: "classpath:db/master.xml"
+
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: public

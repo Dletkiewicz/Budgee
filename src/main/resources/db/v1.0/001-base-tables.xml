@@ -1,0 +1,109 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-table-users" author="github.com/Dletkiewicz">
+        <createTable tableName="users">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" primaryKeyName="users_pk"/>
+            </column>
+            <column name="business_id" type="uuid">
+                <constraints nullable="false" unique="true" uniqueConstraintName="users_business_id_un"/>
+            </column>
+            <column name="first_name" type="varchar(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="varchar(15)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-budgets" author="github.com/Dletkiewicz">
+        <createTable tableName="budgets">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" primaryKeyName="budgets_pk"/>
+            </column>
+            <column name="business_id" type="uuid">
+                <constraints nullable="false" unique="true" uniqueConstraintName="budgets_business_id_un"/>
+            </column>
+            <column name="user_id" type="uuid">
+                <constraints referencedTableName="users" referencedColumnNames="id" foreignKeyName="budgets_user_fk"/>
+            </column>
+            <column name="balance" type="decimal(15,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="varchar(5)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-expenses" author="github.com/Dletkiewicz">
+        <createTable tableName="expenses">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" primaryKeyName="expenses_pk"/>
+            </column>
+            <column name="business_id" type="uuid">
+                <constraints nullable="false" unique="true" uniqueConstraintName="expenses_business_id_un"/>
+            </column>
+            <column name="budget_id" type="uuid">
+                <constraints referencedTableName="budgets" referencedColumnNames="id" foreignKeyName="expenses_budget_fk"/>
+            </column>
+            <column name="amount" type="decimal(15,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(3000)"/>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-incomes" author="github.com/Dletkiewicz">
+        <createTable tableName="incomes">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" primaryKeyName="incomes_pk"/>
+            </column>
+            <column name="business_id" type="uuid">
+                <constraints nullable="false" unique="true" uniqueConstraintName="incomes_business_id_un"/>
+            </column>
+            <column name="budget_id" type="uuid">
+                <constraints referencedTableName="budgets" referencedColumnNames="id" foreignKeyName="incomes_budget_fk"/>
+            </column>
+            <column name="amount" type="decimal(15,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(3000)"/>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
