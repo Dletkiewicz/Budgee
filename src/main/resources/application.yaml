@@ -3,17 +3,13 @@ spring:
     name: budgee
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/budgee_db?useSSL=false
-    username: user
-    password: passwd
+    url: jdbc:postgresql://db:5432/budgee_db
+    username: root
+    password: admin
 
   jpa:
     hibernate:
       ddl-auto: validate
-    show-sql: "${SHOW_SQL:true}"
-    properties:
-      hibernate:
-        "[format_sql]": true
     open-in-view: false
 
   liquibase:
