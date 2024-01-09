@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.budgee.adapter.jpa.IncomeEntity.EntityResolver;
 import pl.budgee.domain.model.Budget.BudgetId;
@@ -13,6 +15,8 @@ import pl.budgee.domain.model.Income;
 import pl.budgee.domain.model.Income.IncomeId;
 import pl.budgee.domain.port.IncomeRepository;
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +34,15 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
 
     @EntityGraph(attributePaths = {"budget"})
     Slice<IncomeEntity> findAllByBudgetBusinessId(UUID budgetId, Pageable pageable);
+
+    @Query("SELECT COALESCE(SUM(i.amount), 0) FROM IncomeEntity i " +
+        "WHERE i.audit.createdAt BETWEEN :startDate AND :endDate " +
+        "AND i.budget.businessId = :budgetId")
+    BigDecimal sumAmountByDateRangeAndBudgetId(
+        @Param("budgetId") UUID budgetId,
+        @Param("startDate") Instant startDate,
+        @Param("endDate") Instant endDate
+    );
   }
 
   interface SpringDataBudgetRepository extends JpaRepository<BudgetEntity, UUID> {
@@ -59,6 +72,11 @@ public class JpaIncomeRepository implements IncomeRepository, EntityResolver {
   @Override
   public BudgetEntity resolve(BudgetId id) {
     return budgets.getByBusinessId(id.value());
+  }
+
+  @Override
+  public BigDecimal sumIncomes(BudgetId budgetId, Instant startDate, Instant endDate) {
+    return incomes.sumAmountByDateRangeAndBudgetId(budgetId.value(), startDate, endDate);
   }
 
   @Override

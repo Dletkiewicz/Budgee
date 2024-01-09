@@ -10,9 +10,12 @@ import pl.budgee.domain.model.Budget.BudgetId;
 import pl.budgee.domain.usecase.CreateExpense.CreateExpenseRequest;
 import pl.budgee.domain.usecase.CreateIncome.CreateIncomeRequest;
 import pl.budgee.domain.usecase.CreateUser.CreateUserRequest;
+import pl.budgee.domain.usecase.GetIncomeSum.GetIncomeSumRequest;
 import pl.budgee.domain.usecase.UpdateUser.UpdateUserRequest;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Currency;
 import java.util.UUID;
 
 public class WebModels {
@@ -51,6 +54,28 @@ public class WebModels {
 
     static ExpenseDto of(Expense expense) {
       return new ExpenseDto(expense.id().value(), expense.amount(), expense.type(), expense.description());
+    }
+  }
+
+  @Value
+  static class BudgetDto {
+    UUID id;
+    BigDecimal balance;
+    Currency currency;
+
+    static BudgetDto of(Budget budget) {
+      return new BudgetDto(budget.id().value(), budget.balance(), budget.currency());
+    }
+  }
+
+  @Data
+  @NoArgsConstructor
+  static class GetIncomeSumDto {
+    Instant startDate;
+    Instant endDate;
+
+    GetIncomeSumRequest toRequest(BudgetId budgetId) {
+      return new GetIncomeSumRequest(budgetId, startDate, endDate);
     }
   }
 

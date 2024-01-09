@@ -6,6 +6,9 @@ import pl.budgee.domain.model.Budget.BudgetId;
 import pl.budgee.domain.model.Income;
 import pl.budgee.domain.model.Income.IncomeId;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface IncomeRepository {
@@ -17,4 +20,6 @@ public interface IncomeRepository {
   Optional<Income> findOneById(BudgetId budgetId, IncomeId id);
 
   Slice<Income> findAll(BudgetId budgetId, Pageable pageable);
+
+  BigDecimal sumIncomes(BudgetId budgetId, Instant startDate, Instant endDate);
 }
