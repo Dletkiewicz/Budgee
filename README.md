@@ -23,3 +23,9 @@ docker-compose up -d
 
 Java 17, Spring Boot, Spring Security, Spring Data JPA, Lombok, Maven, JUnit5, Mockito
 
+
+## Screenshots
+
+![App Screenshot](https://i.imgur.com/7QHsBzD.png)
+
+![App Screenshot](https://i.imgur.com/NC015Fv.png)
