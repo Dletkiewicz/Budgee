@@ -18,3 +18,8 @@ and
 ```bash
 docker-compose up -d
 ```
+
+## Tech Stack
+
+Java 17, Spring Boot, Spring Security, Spring Data JPA, Lombok, Maven, JUnit5, Mockito
+
