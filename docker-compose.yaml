@@ -9,7 +9,7 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
     volumes:
-      - C:\postgres_datapart:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
     restart: always
 
   backend:
@@ -24,3 +24,6 @@ services:
       db-user: admin
       db-password: admin
     restart: always
+
+volumes:
+  db_data:
